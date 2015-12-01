@@ -17,8 +17,8 @@ procedure Main2Joueurs is
    -- definition d'une partie entre L'ordinateur en Joueur 1 et un humain en Joueur 2
    package MyPartie is new Partie(MyPuissance4.Etat,
 				  MyPuissance4.Coup, 
-				  "Pierre",
-				  "Paul",
+				  "Alice",
+				  "Manuel",
 				  MyPuissance4.Jouer,
 				  MyPuissance4.Est_Gagnant,
 				  MyPuissance4.Est_Nul,

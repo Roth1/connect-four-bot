@@ -7,14 +7,17 @@
 --
 
 generic
-    type Element is private;
-    with procedure Put(E : in Element);
-    
+   type Element is private;
+   with procedure Put(E : in Element);
+
+
 -- Les specifications du package, qui n'utilisent
 -- que les elements et procedures generiques
 package Liste_Generique is
-    type Liste is private;
-    type Iterateur is private;
+   type Iterateur is private;
+   type Iterateur_Interne is private;
+   type Cellule is private;
+   type Liste is private;
 
     -- Affichage de la liste, dans l'ordre de parcours
     procedure Affiche_Liste (L : in Liste);
@@ -28,7 +31,7 @@ package Liste_Generique is
     -- Creation de la liste vide
     function Creer_Liste return Liste;
 
-    -- Cree un nouvel iterateur 
+    -- Cree un nouvel iterateur
     function Creer_Iterateur (L : Liste) return Iterateur;
 
     -- Liberation d'un iterateur
@@ -45,13 +48,20 @@ package Liste_Generique is
 
     FinDeListe : exception;
 
-private 
-    type Cellule;
-    type Liste is access Cellule;
+private
 
-    type Iterateur_Interne;
+    type Liste is access Cellule;
+    type Cellule is record
+       Val: Element;
+       Suiv: Liste;
+    end record;
+
     type Iterateur is access Iterateur_Interne;
-   
+    type Iterateur_Interne is record
+       Cour : Liste;
+       Suiv : Liste;
+    end record;
+
 end Liste_Generique;
 
 
