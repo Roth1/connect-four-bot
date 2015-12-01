@@ -69,7 +69,7 @@ begin
    Put("-");
    
    -- Game
-   Etat(N, M, 3) := 'X';
+   Etat(1, M, 3) := 'X';
    Etat(N-1, M, 3) := 'X';
    Etat(N-2, M, 3) := 'X';
    Etat(N-3, M, 3) := 'X';

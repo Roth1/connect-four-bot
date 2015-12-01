@@ -1,22 +1,26 @@
 with Ada.Text_IO;
 with Ada.Integer_Text_IO;
+with Participant;
 
 use Ada.Text_IO;
 use Ada.Integer_Text_IO;
+use Participant;
 
-package Puissance4 is
+generic
    --
    N : Natural;
    M : Natural;
    P : Natural;
    
-   --
+package Puissance4 is      
+   -- type Etat is an array(Natural, Natural, Natural) of Character
    type Etat is array(1..N, 1..M, 1..3) of Character;
-   type Coup is Integer;
+   -- 
+   type Coup is new Natural;
    -- asfs
    procedure Initialiser(E: in out Etat);
    -- asdas
-   procedure Joueur();
+   function Jouer(E: Etat; C: Coup) return Etat;
    -- 
    function Est_Gagnant(E: Etat; J: Joueur) return Boolean;
    --
@@ -29,7 +33,5 @@ package Puissance4 is
    function Demande_Coup_Joueur1(E: in Etat) return Coup;
    --
    function Demande_Coup_Joueur2(E: in Etat) return Coup;
-   
-   
-   
+
 end Puissance4;

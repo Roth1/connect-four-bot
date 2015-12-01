@@ -6,6 +6,8 @@ use Ada.Integer_Text_IO;
 
 package body Puissance4 is
    
+   -- Etat is array(1..N, 1..M, 1..3) of Character;
+   
    procedure Initialiser(E: in out Etat) is
       
    begin
@@ -34,15 +36,32 @@ package body Puissance4 is
       Put("-");
    end Initialiser;
    
+   -- ...
+   function Jouer(E: Etat; C: Coup) return Etat is
+      Check : Boolean := False;
+      Top : Natural := 1;
+   begin
+      while Top /= N + 1 and then Etat(Top, Coup, 3) /= 'X' and Etat(Top, Coup, 3) /= 'O') loop
+	 Top := Top + 1;
+      end loop;
+      Etat(Top - 1, Coup, 3) := 'O';
+   end Jouer;
+   
    --
-   function Est_Gagnant(E: Etat, XO: Joueur) return Boolean is
+   function Est_Gagnant(E: Etat; J: Joueur) return Boolean is
       Counter : Natural := 0;   
       Symbol : Char;
    begin
+      -- connect player to symbol
+      if J = Joueur1 then
+	 Symbol := 'X';
+      else
+	 Symbol := 'O';
+      end if;
       -- teste les lignes
       for I in 1..N loop
 	 for J in 1..M loop
-	    if Etat[I][J][3] = XO then
+	    if Etat(I, J, 3) = Symbol then
 	       Counter := Counter + 1;
 	       if Counter = P then 
 		  return True;
@@ -56,7 +75,7 @@ package body Puissance4 is
       Counter := 0;
       for J in 1..M loop
 	 for I in 1..N loop
-	    if Etat[I][J][3] = XO then
+	    if Etat(I, J, 3) = Symbol then
 	       Counter := Counter + 1;
 	       if Counter = P then 
 		  return True;
@@ -74,7 +93,7 @@ package body Puissance4 is
    function Est_Nul(E: Etat) return Boolean is
    begin
 	 for J in 1..M loop
-	    if Etat(I, J, 3) = ' ' then
+	    if Etat(1, J, 3) = ' ' then
 	       return False;
 	    end if;
 	 end loop;
@@ -106,44 +125,62 @@ package body Puissance4 is
    end Afficher;
   
    --
-   
    procedure Affiche_Coup(C: in Coup) is 
    begin 
       Put_Line("Le coup est : placement de pion dans la colonne " & Integer'Image(C));
    end Affiche_Coup;
    
+   -- ....
    function Demande_Coup_Joueur1(E: in Etat) return Coup is
-      Afficher(E);
-      Put_Line("Tapez votre coup!");
-      Coup : Input;
+      Input : Natural := 1;
+      -- Top : Natural := 1;
       Check : Boolean := False;
+   begin
+      -- Afficher(E);
+      Put_Line("Joueur 1 : Tapez votre coup!");
       -- implement do/while
       while(Check = False) loop
 	 Get(Input);
-	 if Input < M + 1 then
+	 if Input > 0 and Input < M + 1 then
 	    if Etat(N, Input, 3) /= ('X' or 'O') then
 	       Check := True;
 	    end if;
 	 end if;
       end loop;
       return Input;
-end Demande_Coup_Joueur1;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      
+      -- while(Check = False) loop
+      -- 	 Get(Input);
+      -- 	 if Input < M + 1 then
+      -- 	    while Top /= N + 1 and then Etat(Top, Input, 3) /= ('X' or 'O') loop
+      -- 	       Top := Top + 1;
+      -- 	    end loop;
+      -- 	    if Top > 1 then
+      -- 	       Etat(Top - 1, Input, 3) := 'X';
+      -- 	       Check := True;
+      -- 	    end if;
+      -- 	 end if;
+      -- end loop;
+      -- return Input;
+   end Demande_Coup_Joueur1;
+   
+   -- ....
+   function Demande_Coup_Joueur2(E: in Etat) return Coup is
+      Input : Natural := 1;
+      Check : Boolean := False;
+   begin
+      -- Afficher(E);
+      Put_Line("Joueur 2 : Tapez votre coup!");
+      -- implement do/while
+      while(Check = False) loop
+	 Get(Input);
+	 if Input > 0 and Input < M + 1 then
+	    if Etat(N, Input, 3) /= ('X' or 'O') then
+	       Check := True;
+	    end if;
+	 end if;
+      end loop;
+      return Input;
+   end Demande_Coup_Joueur2;
+   
+end Puissance4;
