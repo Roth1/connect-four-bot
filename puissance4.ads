@@ -16,11 +16,11 @@ package Puissance4 is
    -- type Etat is an array(Natural, Natural, Natural) of Character
    type Etat is array(1..N, 1..M, 1..3) of Character;
    -- 
-   type Coup is new Natural;
+   subtype Coup is Integer;
    -- asfs
    procedure Initialiser(E: in out Etat);
    -- asdas
-   function Jouer(E: Etat; C: Coup) return Etat;
+   function Jouer(E: Etat; C: Coup; J: Joueur) return Etat;
    -- 
    function Est_Gagnant(E: Etat; J: Joueur) return Boolean;
    --

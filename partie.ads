@@ -1,5 +1,7 @@
-with Liste_Generique, Participant;
+--with Liste_Generique
+with Participant;
 with Ada.Text_IO;
+
 use Participant;
 
 generic
@@ -11,7 +13,7 @@ generic
     -- Nom affichable du Joueur2   
     Nom_Joueur2 : String;
     -- Calcule l'etat suivant en appliquant le coup
-    with function Etat_Suivant(E : Etat; C : Coup) return Etat;
+    with function Etat_Suivant(E : Etat; C : Coup; J : Joueur) return Etat;
     -- Indique si l'etat courant est gagnant pour le joueur J
     with function Est_Gagnant(E : Etat; J : Joueur) return Boolean; 
     -- Indique si l'etat courant est un status quo (match nul)
@@ -26,7 +28,6 @@ generic
     with function Coup_Joueur2(E : Etat) return Coup;   
     
 package Partie is
-   
    
     -- Joue une partie. 
     -- E : Etat initial
