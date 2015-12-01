@@ -101,6 +101,91 @@ package body Puissance4 is
 	 end loop;
       end loop;
       -- teste les diagonales
+      -- test the possible downwards diagonals from left to right
+      for K in 1..(M - P + 1) loop
+	    Counter := 0;
+	    for D in 0..(M - K) loop
+	       if 1 + D > N or K + D > M then
+		  exit;
+	       end if;
+	       if E(1 + D, K + D, 3) = Symbol then
+		  Counter := Counter + 1;
+		  if Counter = P then
+		     Put_Line(" ");
+		     Put_Line(" ");
+		     Put_Line("Vous avez gangné le match !");
+		     Put_Line(" ");
+		     return True;
+		  end if;
+	       else 
+		  Counter := 0;
+	       end if;
+	    end loop;
+      end loop;
+      -- test the possible downwards diagonals from top to bottom
+      for I in 1..(N - P + 1) loop
+	 Counter := 0;
+	    for D in 0..(N - I) loop
+	       if I + D > N or 1 + D > M then
+		  exit;
+	       end if;
+	       if E(I + D, 1 + D, 3) = Symbol then
+		  Counter := Counter + 1;
+		  if Counter = P then
+		     Put_Line(" ");
+		     Put_Line(" ");
+		     Put_Line("Vous avez gangné le match !");
+		     Put_Line(" ");
+		     return True;
+		  end if;
+	       else 
+		  Counter := 0;
+	       end if;
+	    end loop;
+      end loop;
+      -- test the possible upwards diagonals from left to right
+      for K in 1..(M - P + 1) loop
+	    Counter := 0;
+	    for D in 0..(M - K) loop
+	       if N - D < 1 or K + D > M then
+		  exit;
+	       end if;
+	       if E(N - D, K + D, 3) = Symbol then
+		  Counter := Counter + 1;
+		  if Counter = P then
+		     Put_Line(" ");
+		     Put_Line(" ");
+		     Put_Line("Vous avez gangné le match !");
+		     Put_Line(" ");
+		     return True;
+		  end if;
+	       else 
+		  Counter := 0;
+	       end if;
+	    end loop;
+      end loop;
+      -- test the possible upwards diagonals from bottom to top
+      for I in 1..(N - P + 1) loop
+	    Counter := 0;
+	    for D in 0..(N - I) loop
+	       if N - D < 1 or 1 + D > M then
+		  exit;
+	       end if;
+	       if E(N - D, 1 + D, 3) = Symbol then
+		  Counter := Counter + 1;
+		  if Counter = P then
+		     Put_Line(" ");
+		     Put_Line(" ");
+		     Put_Line("Vous avez gangné le match !");
+		     Put_Line(" ");
+		     return True;
+		  end if;
+	       else 
+		  Counter := 0;
+	       end if;
+	    end loop;
+      end loop;
+      -- all tests failed : no winner yet
       return False;
    end Est_Gagnant;
    
