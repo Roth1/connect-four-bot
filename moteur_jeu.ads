@@ -32,7 +32,7 @@ package Moteur_Jeu is
     -- Choix du prochain coup par l'ordinateur. 
     -- E : l'etat actuel du jeu;
     -- P : profondeur a laquelle la selection doit s'effetuer
-    function Choix_Coup(E : Etat) return Coup;
+    function Choix_Coup(E : Etat; P : Natural) return Coup;
    
 private 
     -- Evaluation d'un coup a partir d'un etat donne

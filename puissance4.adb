@@ -37,17 +37,17 @@ package body Puissance4 is
    end Initialiser;
    
    -- ...
-   function Jouer(E: Etat; C: Coup; J: Joueur) return Etat is
+   function Jouer(E: Etat; C: Coup) return Etat is
       Top : Natural := 1;
       Le_Etat : Etat := E;
    begin
-      while Top /= N + 1 and then E(Top, C, 3) /= 'X' and then E(Top, C, 3) /= 'O' loop
+      while Top /= N + 1 and then E(Top, C.C, 3) /= 'X' and then E(Top, C.C, 3) /= 'O' loop
 	 Top := Top + 1;
       end loop;
-      if J = Joueur1 then
-	 Le_Etat(Top - 1, C, 3) := 'X';
+      if C.J = Joueur1 then
+	 Le_Etat(Top - 1, C.C, 3) := 'X';
       else
-	 Le_Etat(Top - 1, C, 3) := 'O';
+	 Le_Etat(Top - 1, C.C, 3) := 'O';
       end if;
       return Le_Etat;
    end Jouer;
@@ -232,29 +232,36 @@ package body Puissance4 is
    procedure Affiche_Coup(C: in Coup) is 
    begin 
       Put_Line(" ");
-      Put_Line("Le coup est : placement de pion dans la colonne" & Integer'Image(C) & ".");
+      Put_Line("Le coup est : placement de pion dans la colonne" & Integer'Image(C.C) & ".");
       Put_Line(" ");
    end Affiche_Coup;
    
    -- ....
    function Demande_Coup_Joueur1(E: in Etat) return Coup is
-      Input : Integer;
+--      Input : Integer;
+--   begin
+--      Put_Line(" ");
+--      Put_Line("Joueur 1 : Tapez votre coup!");
+--      -- implement do/while
+--      loop
+--	 Get(Input);
+--	 if Input > 0 and Input < M + 1 then
+--	    if E(1, Input, 3) /= 'X' and E(1, Input, 3) /= 'O' then
+--	       exit;
+--	    end if;
+--	 end if;
+--	 Put_Line("Ce n'est pas possible, essayez encore une fois !");
+--      end loop;
+--      Le_Coup.C := Input;
+--      Le_Coup.J := Joueur1;
+--      return Le_Coup;
    begin
       Put_Line(" ");
-      Put_Line("Joueur 1 : Tapez votre coup!");
-      -- implement do/while
-      loop
-	 Get(Input);
-	 if Input > 0 and Input < M + 1 then
-	    if E(1, Input, 3) /= 'X' and E(1, Input, 3) /= 'O' then
-	       exit;
-	    end if;
-	 end if;
-	 Put_Line("Ce n'est pas possible, essayez encore une fois !");
-      end loop;
-      return Input;
+      Put_Line("Coup de l'ordinateur!");
+      -- profondeur de 3
+      return Choix_Coup(E, 3);
    end Demande_Coup_Joueur1;
-   
+      
    -- ....
    function Demande_Coup_Joueur2(E: in Etat) return Coup is
       Input : Integer;
@@ -271,7 +278,52 @@ package body Puissance4 is
 	 end if;
 	 Put_Line("Ce n'est pas possible, essayez encore une fois!");
       end loop;
-      return Input;
+      Le_Coup.C := Input;
+      Le_Coup.J := Joueur2;
+      return Le_Coup;
    end Demande_Coup_Joueur2;
+   
+   function Coups_Possibles(E : Etat; J : Joueur) return Liste_Coups is
+      Coup_Liste : Liste_Coups := Creer_Liste;
+      Le_Coup : Coup;
+   begin
+      for K in 1..M loop
+	 if E(1, K, 3) /= 'X' and E(1, K, 3) /= 'O' then
+	    Le_Coup.C := K;
+	    Le_Coup.J := J;
+	    Coup_Liste.Insere_Tete(Le_Coup, Coup_Liste);
+	 end if;
+      end loop;
+      return Coup_Liste;
+   end Coups_Possibles;
+   
+    -- Evaluation statique du jeu du point de vue de l'ordinateur
+   function Eval(E : Etat) return Integer is
+      Counter_C : Integer := 0;
+      Counter_L : Integer := 0;
+   begin
+      for I in 1..N loop
+	 Counter_L := 0;
+	 for K in 1..M loop
+	    if E(I, K, 3) = 'X' then
+	       Counter_L := Counter_L + 10;
+	    elsif E(I, K, 3) = 'O' then
+	      Counter_L := Counter_L -10;
+	    end if;
+	 end loop;
+      end loop;
+      -- teste les colonnes
+      Counter_C := 0;
+      for K in 1..M loop
+	 Counter_C := 0;
+	 for I in 1..N loop
+	    if E(I, K, 3) = 'X' then
+	       Counter_C := Counter_C + 10;
+	    elsif E(I, K, 3) = 'O' then
+	       Counter_C := Counter_C -10;
+	    end if;
+	 end loop;
+      end loop;
+   end Eval;
    
 end Puissance4;

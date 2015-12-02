@@ -3,8 +3,8 @@ with Ada.Integer_Text_IO;
 with Puissance4;
 with Participant;
 with Partie;
--- with Liste_Generique;
--- with Moteur_Jeu;
+with Liste_Generique;
+with Moteur_Jeu;
 
 use Ada.Text_IO;
 use Ada.Integer_Text_IO;
@@ -12,7 +12,7 @@ use Participant;
 
 procedure Main2Joueurs is
    
-   package MyPuissance4 is new Puissance4(6,6,4);
+   package MyPuissance4 is new Puissance4(4,4,4);
    
    -- definition d'une partie entre L'ordinateur en Joueur 1 et un humain en Joueur 2
    package MyPartie is new Partie(MyPuissance4.Etat,

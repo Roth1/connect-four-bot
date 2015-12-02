@@ -1,4 +1,4 @@
---with Liste_Generique
+with Liste_Generique
 with Participant;
 with Ada.Text_IO;
 
@@ -19,7 +19,7 @@ package body Partie is
 	    Le_Coup := Coup_Joueur2(E);
 	 end if;
 	 Affiche_Coup(Le_Coup);
-	 E := Etat_Suivant(E, Le_Coup, Le_Joueur);
+	 E := Etat_Suivant(E, Le_Coup);
 	 Affiche_Jeu(E);
 	 if Est_Gagnant(E, Le_Joueur) then
 	    exit;
