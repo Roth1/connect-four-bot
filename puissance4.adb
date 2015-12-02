@@ -70,10 +70,6 @@ package body Puissance4 is
 	    if E(I, K, 3) = Symbol then
 	       Counter := Counter + 1;
 	       if Counter = P then
-		  Put_Line(" ");
-		  Put_Line(" ");
-		  Put_Line("Vous avez gangné le match !");
-		  Put_Line(" ");
 		  return True;
 	       end if;
 	    else 
@@ -89,10 +85,6 @@ package body Puissance4 is
 	    if E(I, K, 3) = Symbol then
 	       Counter := Counter + 1;
 	       if Counter = P then
-		  Put_Line(" ");
-		  Put_Line(" ");
-		  Put_Line("Vous avez gangné le match !");
-		  Put_Line(" ");
 		  return True;
 	       end if;
 	    else 
@@ -111,10 +103,6 @@ package body Puissance4 is
 	       if E(1 + D, K + D, 3) = Symbol then
 		  Counter := Counter + 1;
 		  if Counter = P then
-		     Put_Line(" ");
-		     Put_Line(" ");
-		     Put_Line("Vous avez gangné le match !");
-		     Put_Line(" ");
 		     return True;
 		  end if;
 	       else 
@@ -132,10 +120,6 @@ package body Puissance4 is
 	       if E(I + D, 1 + D, 3) = Symbol then
 		  Counter := Counter + 1;
 		  if Counter = P then
-		     Put_Line(" ");
-		     Put_Line(" ");
-		     Put_Line("Vous avez gangné le match !");
-		     Put_Line(" ");
 		     return True;
 		  end if;
 	       else 
@@ -153,10 +137,6 @@ package body Puissance4 is
 	       if E(N - D, K + D, 3) = Symbol then
 		  Counter := Counter + 1;
 		  if Counter = P then
-		     Put_Line(" ");
-		     Put_Line(" ");
-		     Put_Line("Vous avez gangné le match !");
-		     Put_Line(" ");
 		     return True;
 		  end if;
 	       else 
@@ -174,10 +154,6 @@ package body Puissance4 is
 	       if E(N - D, 1 + D, 3) = Symbol then
 		  Counter := Counter + 1;
 		  if Counter = P then
-		     Put_Line(" ");
-		     Put_Line(" ");
-		     Put_Line("Vous avez gangné le match !");
-		     Put_Line(" ");
 		     return True;
 		  end if;
 	       else 
@@ -197,10 +173,6 @@ package body Puissance4 is
 	       return False;
 	    end if;
 	 end loop;
-	 Put_Line(" ");
-	 Put_Line(" ");
-	 Put_Line("Resultat : NUL !");
-	 Put_Line(" ");
 	 return True;
    end Est_Nul;
    
@@ -238,33 +210,30 @@ package body Puissance4 is
    
    -- ....
    function Demande_Coup_Joueur1(E: in Etat) return Coup is
---      Input : Integer;
---   begin
---      Put_Line(" ");
---      Put_Line("Joueur 1 : Tapez votre coup!");
---      -- implement do/while
---      loop
---	 Get(Input);
---	 if Input > 0 and Input < M + 1 then
---	    if E(1, Input, 3) /= 'X' and E(1, Input, 3) /= 'O' then
---	       exit;
---	    end if;
---	 end if;
---	 Put_Line("Ce n'est pas possible, essayez encore une fois !");
---      end loop;
---      Le_Coup.C := Input;
---      Le_Coup.J := Joueur1;
---      return Le_Coup;
+      Input : Integer;
+      Le_Coup : Coup;
    begin
       Put_Line(" ");
-      Put_Line("Coup de l'ordinateur!");
-      -- profondeur de 3
-      return Choix_Coup(E, 3);
+      Put_Line("Joueur 1 : Tapez votre coup!");
+      -- implement do/while
+      loop
+	 Get(Input);
+	 if Input > 0 and Input < M + 1 then
+	    if E(1, Input, 3) /= 'X' and E(1, Input, 3) /= 'O' then
+	       exit;
+	    end if;
+	 end if;
+	 Put_Line("Ce n'est pas possible, essayez encore une fois !");
+      end loop;
+      Le_Coup.C := Input;
+      Le_Coup.J := Joueur1;
+      return Le_Coup;
    end Demande_Coup_Joueur1;
       
    -- ....
    function Demande_Coup_Joueur2(E: in Etat) return Coup is
       Input : Integer;
+      Le_Coup : Coup;
    begin
       Put_Line(" ");
       Put_Line("Joueur 2 : Tapez votre coup!");
@@ -283,15 +252,15 @@ package body Puissance4 is
       return Le_Coup;
    end Demande_Coup_Joueur2;
    
-   function Coups_Possibles(E : Etat; J : Joueur) return Liste_Coups is
-      Coup_Liste : Liste_Coups := Creer_Liste;
+   function Coups_Possibles(E : Etat; J : Joueur) return Liste_Coups.Liste is
+      Coup_Liste : Liste_Coups.Liste := Creer_Liste;
       Le_Coup : Coup;
    begin
       for K in 1..M loop
 	 if E(1, K, 3) /= 'X' and E(1, K, 3) /= 'O' then
 	    Le_Coup.C := K;
 	    Le_Coup.J := J;
-	    Coup_Liste.Insere_Tete(Le_Coup, Coup_Liste);
+	    Insere_Tete(Le_Coup, Coup_Liste);
 	 end if;
       end loop;
       return Coup_Liste;
@@ -301,29 +270,80 @@ package body Puissance4 is
    function Eval(E : Etat) return Integer is
       Counter_C : Integer := 0;
       Counter_L : Integer := 0;
+      
+      --function Voisins_H(Positive I; Positive J) is
+      --begin	 
+	 
+      --end Voisins_H;
+      
+      --function Voisins_V(Positive I; Positive J) is
+      --begin	 
+	 
+      --end Voisins_V;
+
    begin
+--       for I in 1..N loop
+-- 	 -- Counter_L := 0;
+-- 	 for K in 1..M loop
+-- 	    if E(I, K, 3) = 'X' then
+-- 	       Counter_L := Counter_L + 5;
+-- 	    elsif E(I, K, 3) = 'O' then
+-- 	      Counter_L := Counter_L -5;
+-- 	    end if;
+-- 	    if K < M and Counter_L > 10 then
+-- 	       if E(I, K, 3) = ' ' then
+-- 		  Counter_L := Counter_L
+-- 	 end loop;
+--       end loop;
+--       -- teste les colonnes
+--       Counter_C := 0;
+--       for K in 1..M loop
+-- 	 Counter_C := 0;
+-- 	 for I in 1..N loop
+-- 	    if E(I, K, 3) = 'X' then
+-- 	       Counter_C := Counter_C + 10;
+-- 	    elsif E(I, K, 3) = 'O' then
+-- 	       Counter_C := Counter_C -10;
+-- 	    end if;
+-- 	 end loop;
+--       end loop;
+--       return Counter_C + Counter_L;
       for I in 1..N loop
-	 Counter_L := 0;
-	 for K in 1..M loop
-	    if E(I, K, 3) = 'X' then
-	       Counter_L := Counter_L + 10;
-	    elsif E(I, K, 3) = 'O' then
-	      Counter_L := Counter_L -10;
+	 for J in 1..M loop
+	    if E(I, J, 3) = 'X' then
+	       if J > 1 and J < M then
+		  if E(I, J - 1, 3) = ' ' and E(I, J + 1, 3) = 'X' then
+		     Counter_L := Counter_L + 20;
+		  elsif E(I, J - 1, 3) = 'X' and E(I, J + 1, 3) = ' ' then
+		     Counter_L := Counter_L + 20;
+		  end if;
+	       end if;
+	       if I > 1 and I < N then
+		  if E(I - 1, J, 3) = ' ' and E(I + 1, J, 3) = 'X' then
+		     Counter_L := Counter_L + 20;
+		  elsif E(I - 1, J, 3) = 'X' and E(I + 1, J, 3) = ' ' then
+		     Counter_L := Counter_L + 20;
+		  end if;
+	       end if;
+	    elsif E(I, J, 3) = 'O' then
+	       if J > 1 and J < M then
+		  if E(I, J - 1, 3) = ' ' and E(I, J + 1, 3) = 'O' then
+		     Counter_L := Counter_L - 30;
+		  elsif E(I, J - 1, 3) = 'O' and E(I, J + 1, 3) = ' ' then
+		     Counter_L := Counter_L - 30;
+		  end if;
+	       end if;
+	       if I > 1 and I < N then
+		  if E(I - 1, J, 3) = ' ' and E(I + 1, J, 3) = 'O' then
+		     Counter_L := Counter_L - 30;
+		  elsif E(I - 1, J, 3) = 'O' and E(I + 1, J, 3) = ' ' then
+		     Counter_L := Counter_L - 30;
+		  end if;
+	       end if;
 	    end if;
 	 end loop;
       end loop;
-      -- teste les colonnes
-      Counter_C := 0;
-      for K in 1..M loop
-	 Counter_C := 0;
-	 for I in 1..N loop
-	    if E(I, K, 3) = 'X' then
-	       Counter_C := Counter_C + 10;
-	    elsif E(I, K, 3) = 'O' then
-	       Counter_C := Counter_C -10;
-	    end if;
-	 end loop;
-      end loop;
+      return Counter_L;
    end Eval;
    
 end Puissance4;

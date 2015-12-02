@@ -22,9 +22,6 @@ package Puissance4 is
       J : Joueur;
    end record;
    --
-   --with package Liste_Coups is new Liste_Generique(Coup, Affiche_Coup);
-   package Liste_Coups is new Liste_Generique(Coup, Affiche_Coup); 
-   -- asfs
    procedure Initialiser(E: in out Etat);
    -- asdas
    function Jouer(E: Etat; C: Coup) return Etat;
@@ -40,8 +37,11 @@ package Puissance4 is
    function Demande_Coup_Joueur1(E: in Etat) return Coup;
    --
    function Demande_Coup_Joueur2(E: in Etat) return Coup;
-   -- 
-   function Coups_Possibles(E : Etat; J : Joueur) return Liste_Coups; 
+   --
+   package Liste_Coups is new Liste_Generique(Coup, Affiche_Coup);
+   use Liste_Coups;
+   --
+   function Coups_Possibles(E : Etat; J : Joueur) return Liste_Coups.Liste; 
     -- Evaluation statique du jeu du point de vue de l'ordinateur
    function Eval(E : Etat) return Integer; 
 

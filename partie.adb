@@ -1,7 +1,8 @@
-with Liste_Generique
+-- with Liste_Generique;
 with Participant;
 with Ada.Text_IO;
 
+use Ada.Text_IO;
 use Participant;
 
 package body Partie is
@@ -22,9 +23,21 @@ package body Partie is
 	 E := Etat_Suivant(E, Le_Coup);
 	 Affiche_Jeu(E);
 	 if Est_Gagnant(E, Le_Joueur) then
+	    Put_Line(" ");
+	    Put_Line(" ");
+	    if Le_Joueur = Joueur2 then
+	       Put_Line("Joueur 2 a gangné le match !");
+	    else
+	       Put_Line("Joueur 1 a gagné le match!");
+	    end if;
+	    Put_Line(" ");
 	    exit;
 	 end if;
 	 if Est_Nul(E) then
+	    Put_Line(" ");
+	    Put_Line(" ");
+	    Put_Line("Resultat : NUL !");
+	    Put_Line(" ");
 	    exit;
 	 end if;
 	 Le_Joueur := Adversaire(Le_Joueur);

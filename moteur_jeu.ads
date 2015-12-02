@@ -1,6 +1,7 @@
 with Participant; use Participant; 
 with Liste_Generique;
 with Ada.Text_IO;
+with Ada.Numerics.Discrete_Random;
 
 generic
     type Etat is private;
@@ -32,9 +33,14 @@ package Moteur_Jeu is
     -- Choix du prochain coup par l'ordinateur. 
     -- E : l'etat actuel du jeu;
     -- P : profondeur a laquelle la selection doit s'effetuer
-    function Choix_Coup(E : Etat; P : Natural) return Coup;
+    function Choix_Coup(E : Etat) return Coup;
    
-private 
+private
+   -- throw a coin for a random output
+   type Coin is (Heads, Tails);
+   package Random_Coin is new Ada.Numerics.Discrete_Random(Coin);
+   use Random_Coin;
+   --G : Generator;
     -- Evaluation d'un coup a partir d'un etat donne
     -- E : Etat courant
     -- P : profondeur a laquelle cette evaluation doit etre realisee
