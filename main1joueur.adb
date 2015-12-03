@@ -12,7 +12,7 @@ use Participant;
 
 procedure Main1Joueur is
    
-   package MyPuissance4 is new Puissance4(4,4,3);
+   package MyPuissance4 is new Puissance4(3,3,3);
    
    package MyMoteur_Jeu is new Moteur_Jeu(MyPuissance4.Etat,
 					  MyPuissance4.Coup, 
@@ -23,7 +23,7 @@ procedure Main1Joueur is
 					  MyPuissance4.Liste_Coups,
 					  MyPuissance4.Coups_Possibles,
 					  MyPuissance4.Eval,
-					  4,
+					  1,
 					  Joueur1);
    
    -- definition d'une partie entre L'ordinateur en Joueur 1 et un humain en Joueur 2

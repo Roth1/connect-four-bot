@@ -13,6 +13,7 @@ package body Moteur_Jeu is
       Coup_Iter : Liste_Coups.Iterateur;
       Temp : Coup;
       Le_Coup : Coup;
+      G : Generator;
    begin
       -- AI est toujours Joueur1
       Coup_Liste := Coups_Possibles(E, Joueur1);
@@ -23,6 +24,14 @@ package body Moteur_Jeu is
 	 if Eval_Noeud > V then
 	   V := Eval_Noeud;
 	   Le_Coup := Temp;
+	 end if;
+	 -- un peu aleatoire
+	 if Eval_Noeud = V then
+	       Reset(G);
+	       -- demarre random generator
+	       if Random(G) = Heads then
+		  Le_Coup  := Temp;
+	       end if;
 	 end if;
 	 exit when not Liste_Coups.A_Suivant(Coup_Iter);
 	 Liste_Coups.Suivant(Coup_Iter);
@@ -42,10 +51,7 @@ package body Moteur_Jeu is
       G : Generator;
    begin
       Possible_State := Etat_Suivant(E, C);
-      if P = 0 then
-	 return Eval(Possible_State);
-      end if;
-      -- P > 0
+      -- 
       if Est_Gagnant(Possible_State, J) then
 	 return 1000;
       end if;
@@ -54,6 +60,10 @@ package body Moteur_Jeu is
       end if;
       if Est_Nul(Possible_State) then
 	 return 0;
+      end if;
+      -- on est arrive au profondeur demandee
+      if P = 0 then
+	 return Eval(Possible_State);
       end if;
       -- if maximizing player
       if J = Joueur1 then

@@ -2,6 +2,7 @@ with Ada.Text_IO;
 with Ada.Integer_Text_IO;
 with Ada.Strings.Fixed;
 -- with Partie;
+with Ada.Numerics.Discrete_Random;
 
 use Ada.Text_IO;
 use Ada.Integer_Text_IO;
@@ -18,6 +19,10 @@ procedure Test_Affiche_Jeu is
    Counter : Natural := 0;
    Input : Natural := 0;
    Check : Boolean := False;
+   type Coin is (Heads, Tails);
+   package Random_Coin is new Ada.Numerics.Discrete_Random(Coin);
+   use Random_Coin;
+   G : Generator;
 begin
    Put("Enter dimensions: ");
    -- Get(N);
@@ -139,6 +144,15 @@ begin
 	 end if;
       end loop;
       Put("Coup : " & Integer'Image(Input));
+      
+      Reset(G);
+      -- demarre random generator
+      if Random(G) = Heads then
+	 Put(" AWWAWAWAW!");
+      else
+	 Put("MMMMMMMMMM!");
+      end if;
+	 
       
 end Test_Affiche_Jeu;
 
