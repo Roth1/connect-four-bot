@@ -7,7 +7,7 @@ package body Moteur_Jeu is
 
    -- fonction pour choisir un coup
    function Choix_Coup(E: Etat) return Coup is
-      V : Integer := -1000; -- initialisation à une valeur représentant -infinie
+      V : Integer := -10000; -- initialisation à une valeur représentant -infinie
       Eval_Noeud : Integer; -- la valeur evaluée d'un noeud
       Coup_Liste : Liste_Coups.Liste := Liste_Coups.Creer_Liste; -- liste des coups possibles
       Coup_Iter : Liste_Coups.Iterateur; -- itérateur sur cette liste
@@ -37,7 +37,7 @@ package body Moteur_Jeu is
          Liste_Coups.Suivant(Coup_Iter); -- on parcours le coup suivant
       end loop; -- et on s'arrète
       Liste_Coups.Libere_Iterateur(Coup_Iter); -- libère l'itérateur
-      Liste_Coups.Libere_Liste(Coup_Liste); -- libère la liste
+      --Liste_Coups.Libere_Liste(Coup_Liste); -- libère la liste
       return Le_Coup;
    end Choix_Coup;
 
@@ -54,10 +54,10 @@ package body Moteur_Jeu is
       Possible_State := Etat_Suivant(E, C);
       -- on teste les cas particluiers : J1 ou J2 gagne, match nul
       if Est_Gagnant(Possible_State, J) then
-         return 1000; -- 1000 est notre valeur max
+         return 10000; -- 10000 est notre valeur max
       end if;
       if Est_Gagnant(Possible_State, Adversaire(J)) then
-         return -1000; -- -1000 est notre valeur min
+         return -10000; -- -10000 est notre valeur min
       end if;
       if Est_Nul(Possible_State) then
          return 0; -- avoir un match nul n'est ni favorable ni défavorable on lui associe la valeur neutre 0
@@ -69,7 +69,7 @@ package body Moteur_Jeu is
       end if;
       -- if maximizing player
       if J = Joueur1 then
-         V := -1000; -- initialisation à une valeur représentant -infinie
+         V := -10000; -- initialisation à une valeur représentant -infinie
          -- pour chaque fils
          Coup_Liste := Coups_Possibles(Possible_State, J); -- crée la liste de coups possibles 
          Coup_Iter := Liste_Coups.Creer_Iterateur(Coup_Liste); -- crée itérateur sur cette liste
@@ -83,10 +83,10 @@ package body Moteur_Jeu is
             Liste_Coups.Suivant(Coup_Iter);
          end loop;
 	 Liste_Coups.Libere_Iterateur(Coup_Iter); -- libère l'itérateur
-	 Liste_Coups.Libere_Liste(Coup_Liste); -- libère la liste
+	 --Liste_Coups.Libere_Liste(Coup_Liste); -- libère la liste
          return V;
       else -- si J = joueur 2
-         V := 1000; -- à une valeur représentant +infinie
+         V := 10000; -- à une valeur représentant +infinie
 	 -- pour chaque fils
          Coup_Liste := Coups_Possibles(Possible_State, J); -- crée la liste de coups possibles 
          Coup_Iter := Liste_Coups.Creer_Iterateur(Coup_Liste); -- crée itérateur sur cette liste
@@ -100,7 +100,7 @@ package body Moteur_Jeu is
             Liste_Coups.Suivant(Coup_Iter); -- on parcours le coup suivant
          end loop;
 	 Liste_Coups.Libere_Iterateur(Coup_Iter); -- libère l'itérateur
-	 Liste_Coups.Libere_Liste(Coup_Liste); -- libère la liste
+	 --Liste_Coups.Libere_Liste(Coup_Liste); -- libère la liste
          return V;
       end if;
    end Eval_Min_Max;

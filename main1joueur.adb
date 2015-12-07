@@ -24,7 +24,7 @@ procedure Main1Joueur is
                                           MyPuissance4.Liste_Coups,
                                           MyPuissance4.Coups_Possibles,
                                           MyPuissance4.Eval,
-                                          1,
+                                          4,
                                           Joueur1);
 
    -- definition d'une partie entre L'ordinateur en Joueur 1 et un humain en Joueur 2
