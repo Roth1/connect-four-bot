@@ -284,32 +284,6 @@ package body Puissance4 is
       --end Voisins_V;
 
    begin
---       for I in 1..N loop
---       -- Counter_L := 0;
---       for K in 1..M loop
---          if E(I, K, 3) = 'X' then
---             Counter_L := Counter_L + 5;
---          elsif E(I, K, 3) = 'O' then
---            Counter_L := Counter_L -5;
---          end if;
---          if K < M and Counter_L > 10 then
---             if E(I, K, 3) = ' ' then
---                Counter_L := Counter_L
---       end loop;
---       end loop;
---       -- teste les colonnes
---       Counter_C := 0;
---       for K in 1..M loop
---       Counter_C := 0;
---       for I in 1..N loop
---          if E(I, K, 3) = 'X' then
---             Counter_C := Counter_C + 10;
---          elsif E(I, K, 3) = 'O' then
---             Counter_C := Counter_C -10;
---          end if;
---       end loop;
---       end loop;
---       return Counter_C + Counter_L;
       for I in 1..N loop
          for J in 1..M loop
             if E(I, J, 3) = 'X' then

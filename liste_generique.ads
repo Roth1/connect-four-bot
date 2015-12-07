@@ -10,7 +10,6 @@ generic
    type Element is private;
    with procedure Put(E : in Element);
 
-
 -- Les specifications du package, qui n'utilisent
 -- que les elements et procedures generiques
 package Liste_Generique is
@@ -45,17 +44,18 @@ package Liste_Generique is
 
     -- Verifie s'il reste un element a parcourir
     function A_Suivant(It : Iterateur) return Boolean;
-
+    
+    -- Exception
     FinDeListe : exception;
 
 private
-
+    -- Liste est un pointeur sur une cellule de la liste
     type Liste is access Cellule;
     type Cellule is record
        Val: Element;
        Suiv: Liste;
     end record;
-
+    -- Iterateur est aussi un pointeur
     type Iterateur is access Iterateur_Interne;
     type Iterateur_Interne is record
        Cour : Liste;

@@ -21,7 +21,6 @@ package body Liste_Generique is
       New_Line;
    end Affiche_Liste;
 
-
    -- Insertion d'un element V en tete de liste // cf cours
    procedure Insere_Tete (V : in Element; L : in out Liste) is
    begin
