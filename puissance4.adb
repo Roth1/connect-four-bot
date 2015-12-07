@@ -8,6 +8,8 @@ use Participant;
 
 package body Puissance4 is
 
+
+-- on initilialise la grille (vide) de puissance 4 de N*M
    procedure Initialiser(E: in out Etat) is
    begin
       New_Line;
@@ -36,28 +38,28 @@ package body Puissance4 is
       Put("-");
    end Initialiser;
 
-   -- ...
+   -- Teste les lignes de la grille pour placer le pion sur la bonne ligne en fonction de la colonne donnée
    function Jouer(E: Etat; C: Coup) return Etat is
       Top : Natural := 1;
       Le_Etat : Etat := E;
    begin
-      while Top /= N + 1 and then E(Top, C.C, 3) /= 'X' and then E(Top, C.C, 3) /= 'O' loop
+      while Top /= N + 1 and then E(Top, C.C, 3) /= 'X' and then E(Top, C.C, 3) /= 'O' loop  -- tant que E(top,C.C,3) est vide
          Top := Top + 1;
       end loop;
-      if C.J = Joueur1 then
-         Le_Etat(Top - 1, C.C, 3) := 'X';
+      if C.J = Joueur1 then -- si c'est au tour du joueur1 (donc les 'X')
+         Le_Etat(Top - 1, C.C, 3) := 'X'; -- on met une 'X' dans la colonne donnée (C.C) et dans la ligne libre la "plus basse" de la grille
       else
          Le_Etat(Top - 1, C.C, 3) := 'O';
       end if;
       return Le_Etat;
    end Jouer;
 
-   --
+   -- Teste si P pions du joueur J sont alignés selon : - les lignes -les colonnes -les diagonales avec counter= nombre de pions alignés
    function Est_Gagnant(E: Etat; J: Joueur) return Boolean is
       Counter : Natural := 0;
       Symbol : Character;
    begin
-      -- connect player to symbol
+      -- on associe le symbole au joueur
       if J = Joueur1 then
          Symbol := 'X';
       else
@@ -165,7 +167,7 @@ package body Puissance4 is
       return False;
    end Est_Gagnant;
 
-   -- ..
+   -- s'il reste une case vide le match n'est pas nul
    function Est_Nul(E: Etat) return Boolean is
    begin
          for J in 1..M loop
@@ -178,16 +180,16 @@ package body Puissance4 is
 
    procedure Afficher(E: in Etat) is
    begin
-      for I in 1..M loop
+      for I in 1..M loop -- pour chaque colonne
          if I < 10 then
-            Put(" ");
+            Put(" "); -- pour avoir une "belle" grille (sinon décalage)
          end if;
          Put(Integer'Image(I));
       end loop;
       New_Line;
       for I in 1..N loop
          for J in 1..M loop
-            Put(E(I, J, 1));
+            Put(E(I, J, 1)); -- on crée chaque case avec"|"+" "+"soit X soit 0"
             Put(E(I, J, 2));
             Put(E(I, J, 3));
          end loop;
@@ -200,7 +202,7 @@ package body Puissance4 is
       Put("-");
    end Afficher;
 
-   --
+   -- on retourne la colonne donnée dans C
    procedure Affiche_Coup(C: in Coup) is
    begin
       Put_Line(" ");
@@ -208,7 +210,7 @@ package body Puissance4 is
       Put_Line(" ");
    end Affiche_Coup;
 
-   -- ....
+
    function Demande_Coup_Joueur1(E: in Etat) return Coup is
       Input : Integer;
       Le_Coup : Coup;
@@ -217,20 +219,20 @@ package body Puissance4 is
       Put_Line("Joueur 1 : Tapez votre coup!");
       -- implement do/while
       loop
-         Get(Input);
+         Get(Input); -- on récupère la valeur tapée au clavier (ie la colonne)
          if Input > 0 and Input < M + 1 then
-            if E(1, Input, 3) /= 'X' and E(1, Input, 3) /= 'O' then
+            if E(1, Input, 3) /= 'X' and E(1, Input, 3) /= 'O' then -- on vérifie que la ligne la + haute de la grille soit libre --> coup possible
                exit;
             end if;
          end if;
-         Put_Line("Ce n'est pas possible, essayez encore une fois !");
+         Put_Line("Ce n'est pas possible, essayez encore une fois !"); -- si le coup est impossible on demande une autre valeur
       end loop;
       Le_Coup.C := Input;
       Le_Coup.J := Joueur1;
       return Le_Coup;
    end Demande_Coup_Joueur1;
 
-   -- ....
+   -- meme principe que Demande_coup_joueur1
    function Demande_Coup_Joueur2(E: in Etat) return Coup is
       Input : Integer;
       Le_Coup : Coup;
@@ -257,7 +259,7 @@ package body Puissance4 is
       Le_Coup : Coup;
    begin
       for K in 1..M loop
-         if E(1, K, 3) /= 'X' and E(1, K, 3) /= 'O' then
+         if E(1, K, 3) /= 'X' and E(1, K, 3) /= 'O' then -- on liste les cases "vides" de la grille
             Le_Coup.C := K;
             Le_Coup.J := J;
             Insere_Tete(Le_Coup, Coup_Liste);
@@ -313,31 +315,58 @@ package body Puissance4 is
             if E(I, J, 3) = 'X' then
                if J > 1 and J < M then
                   if E(I, J - 1, 3) = ' ' and E(I, J + 1, 3) = 'X' then -- pas de dépassement de J cf conditions ligne préc
-                     Counter_L := Counter_L + 20; -- si on a " ",X,X  , c'est une bonne configuration pour gagner dc +20
+                     Counter_L := Counter_L + 40; -- si on a " ",X,X  , c'est une bonne configuration pour gagner dc +20
                   elsif E(I, J - 1, 3) = 'X' and E(I, J + 1, 3) = ' ' then -- de meme si on a X,X," "
-                     Counter_L := Counter_L + 20;
+                     Counter_L := Counter_L + 40;
                   end if;
                end if;
                if I > 1 and I < N then
                   if E(I - 1, J, 3) = ' ' and E(I + 1, J, 3) = 'X' then -- de meme mais pour un alignement selon les lignes
-                     Counter_L := Counter_L + 20;
+                     Counter_L := Counter_L + 40;
                   elsif E(I - 1, J, 3) = 'X' and E(I + 1, J, 3) = ' ' then
-                     Counter_L := Counter_L + 20;
+                     Counter_L := Counter_L + 40;
                   end if;
                end if;
+               -- rajout alice pour X" "X
+               if J>2 and J<M then
+                  if E(I,J-1,3) = ' ' and E(I,J-2,3)='X' then -- si on a la configuration X,' ',X (vers la gauche)
+                     Counter_L := Counter_L + 40; -- c'est une configuration favorable à l'ordinateur
+                  end if;
+               end if;
+               if J>1 and J< (M-2) then
+                  if E(I,J+1,3) = ' ' and E(I,J+2,3)='X' then -- si on a la configuration X,' ',X (vers la droite)
+                     Counter_L := Counter_L + 40;
+                  end if;
+               end if;
+               -- fin de rajout par alice
+
             elsif E(I, J, 3) = 'O' then
                if J > 1 and J < M then
                   if E(I, J - 1, 3) = ' ' and E(I, J + 1, 3) = 'O' then -- de meme mais avec les 0
-                     Counter_L := Counter_L - 30; -- c'est une bonne configuration pour l'adversaire donc -30
+                     Counter_L := Counter_L - 70; -- c'est une bonne configuration pour l'adversaire donc -30
                   elsif E(I, J - 1, 3) = 'O' and E(I, J + 1, 3) = ' ' then
-                     Counter_L := Counter_L - 30;
+                     Counter_L := Counter_L - 70;
                   end if;
                end if;
+
+               -- rajout alice pour 0" "0
+               if J>2 and J<M then
+                  if E(I,J-1,3) = ' ' and E(I,J-2,3)='0' then -- si on a la configuration 0,' ',0 (vers la gauche)
+                     Counter_L := Counter_L - 70; -- c'est une configuration NON favorable à l'ordinateur
+                  end if;
+               end if;
+               if J>1 and J< (M-2) then
+                  if E(I,J+1,3) = ' ' and E(I,J+2,3)='0' then -- si on a la configuration 0,' ',0 (vers la droite)
+                     Counter_L := Counter_L - 70;
+                  end if;
+               end if;
+               -- fin de rajout par alice
+
                if I > 1 and I < N then
                   if E(I - 1, J, 3) = ' ' and E(I + 1, J, 3) = 'O' then
-                     Counter_L := Counter_L - 30;
+                     Counter_L := Counter_L - 70;
                   elsif E(I - 1, J, 3) = 'O' and E(I + 1, J, 3) = ' ' then
-                     Counter_L := Counter_L - 30;
+                     Counter_L := Counter_L - 70;
                   end if;
                end if;
             end if;
@@ -346,5 +375,5 @@ package body Puissance4 is
       return Counter_L;
    end Eval;
    -- remarque : Eval ne prend pas en compte l'alignement par diagonale
-   -- on peut rajouter des if pr améliorer
+   -- on peut rajouter des if pr améliorer Eval
 end Puissance4;
